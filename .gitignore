@@ -6,3 +6,6 @@ __pycache__/
 
 # Migration cache
 migrations/__pycache__/
+
+# Config file
+config.py

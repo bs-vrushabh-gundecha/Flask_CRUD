@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Register</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+    <div class="raw justify-content-center">
+        <div class="col-sm-8">
+            <h2>Login</h2>
+            <form action="/login" method="POST">
+                <div class="form-group">
+                  <label for="username">Username:</label>
+                  <input type="text" class="form-control" id="username" placeholder="Enter username" name="username">
+                </div>
+                <div class="form-group">
+                  <label for="pwd">Password:</label>
+                  <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pwd">
+                </div>
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                {% for category, msg in messages %}
+                  <div class="alert alert-{{category}}">{{ msg }}</div>
+                {% endfor %}
+                {% endwith %}
+                <button type="submit" class="btn btn-primary">Sign In</button>
+                <a href="/register" class="btn btn-primary">Signup</a>
+            </form>
+        </div>
+    </div>
+  
+</div>
+
+</body>
+</html>

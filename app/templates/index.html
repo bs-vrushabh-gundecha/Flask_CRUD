@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h3 class="mb-3">Users List</h3>
+
+<!-- Search Form -->
+<form method="get" class="row mb-3">
+    <div class="col-md-4">
+        <input type="text" name="search" value="{{ search }}" class="form-control" placeholder="Search by name or email">
+    </div>
+
+    <div class="col-md-3">
+        <select name="sort_by" class="form-select">
+            <option value="name" {% if sort_by == 'name' %}selected{% endif %}>Sort by Name</option>
+            <option value="email" {% if sort_by == 'email' %}selected{% endif %}>Sort by Email</option>
+            <option value="contact" {% if sort_by == 'contact' %}selected{% endif %}>Sort by Mobile</option>
+        </select>
+    </div>
+
+    <div class="col-md-3">
+        <select name="order" class="form-select">
+            <option value="asc" {% if order == 'asc' %}selected{% endif %}>Ascending</option>
+            <option value="desc" {% if order == 'desc' %}selected{% endif %}>Descending</option>
+        </select>
+    </div>
+
+    <div class="col-md-2">
+        <button class="btn btn-primary w-100">Apply</button>
+    </div>
+</form>
+
+
+<table class="table table-bordered table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Mobile</th>
+            <th width="180">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users.items %}
+        <tr>
+            <td>{{ user.name }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.contact }}</td>
+            <td>
+                <a href="/update/{{ user.id }}" class="btn btn-warning btn-sm">Edit</a>
+                <a href="/delete/{{ user.id }}" 
+                   class="btn btn-danger btn-sm"
+                   onclick="return confirm('Are you sure you want to delete?')">
+                   Delete
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% if users.total == 0 %}
+<p class="text-muted">No users found.</p>
+{% endif %}
+
+<!-- Pagination -->
+<nav>
+    <ul class="pagination">
+
+        {% if users.has_prev %}
+        <li class="page-item">
+            <a class="page-link"
+               href="?page={{ users.prev_num }}&search={{ search }}&sort_by={{ sort_by }}&order={{ order }}">
+                Previous
+            </a>
+        </li>
+        {% endif %}
+
+        {% for page_num in users.iter_pages() %}
+            {% if page_num %}
+                <li class="page-item {% if page_num == users.page %}active{% endif %}">
+                    <a class="page-link"
+                       href="?page={{ page_num }}&search={{ search }}&sort_by={{ sort_by }}&order={{ order }}">
+                        {{ page_num }}
+                    </a>
+                </li>
+            {% else %}
+                <li class="page-item disabled"><span class="page-link">…</span></li>
+            {% endif %}
+        {% endfor %}
+
+        {% if users.has_next %}
+        <li class="page-item">
+            <a class="page-link"
+               href="?page={{ users.next_num }}&search={{ search }}&sort_by={{ sort_by }}&order={{ order }}">
+                Next
+            </a>
+        </li>
+        {% endif %}
+
+    </ul>
+</nav>
+
+{% endblock %}

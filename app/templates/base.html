@@ -11,10 +11,16 @@
     <div class="container">
         <a class="navbar-brand" href="/">Flask CRUD App</a>
         <a href="/add" class="btn btn-success">Add User</a>
+        <a href="/logout" class="btn btn-danger">Logout</a>
     </div>
 </nav>
 
 <div class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% for category, message in messages %}
+        <p style="color:red">{{ message }}</p>
+    {% endfor %}
+    {% endwith %}
     {% block content %}{% endblock %}
 </div>
 
